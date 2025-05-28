@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StockEntrada extends Model
 {
@@ -15,12 +17,18 @@ class StockEntrada extends Model
         'fecha',
     ];
 
-    public function productos()
+    /**
+     * Get the product that this stock entry belongs to.
+     */
+    public function producto(): BelongsTo
     {
-        return $this->hasMany(Producto::class);
+        return $this->belongsTo(Producto::class);
     }
 
-    public function user()
+    /**
+     * Get the user who registered this stock entry.
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

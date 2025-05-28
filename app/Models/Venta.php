@@ -22,19 +22,24 @@ class Venta extends Model
     //     'total' => 'decimal:2',
     // ];
 
-    public function cliente()
+    public function cliente(): BelongsTo
     {
-        return $this->belongsTo(Cliente::class); //belongsTo indica que una venta pertenece a un cliente
+        return $this->belongsTo(Cliente::class);
     }
 
-    public function user()
+    /**
+     * Get the user (seller) that recorded the sale.
+     */
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class); //belongsTo indica que una venta pertenece a un usuario
+        return $this->belongsTo(User::class);
     }
 
-    // Relación con DetalleVenta (necesitarás crear este modelo y su tabla)
-    public function DetalleVenta()
+    /**
+     * Get all of the details for the sale.
+     */
+    public function detalles(): HasMany
     {
-        return $this->hasMany(DetalleVenta::class); //hasMany indica que una venta puede tener muchos detalles de venta
+        return $this->hasMany(DetalleVenta::class);
     }
 }

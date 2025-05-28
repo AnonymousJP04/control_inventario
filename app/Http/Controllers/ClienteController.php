@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Para obtener el usuario autenticado
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ClienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the clients.
      */
     public function index()
     {
-        $clientes = Cliente::with('user')->latest()->paginate(10); // Carga la relación 'user' y pagina
+        $clientes = Cliente::with('user')->latest()->paginate(10);
         return view('clientes.index', compact('clientes')); // Asegúrate de tener esta vista
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new client.
      */
     public function create()
     {
@@ -26,16 +27,16 @@ class ClienteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created client in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'nit' => 'required|string|max:20|unique:clientes,nit',
-            'telefono' => 'required|string|max:20',
-            'direccion' => 'required|string|max:255',
-            'correo' => 'required|email|max:255|unique:clientes,correo',
+            'nit' => 'nullable|string|max:20|unique:clientes,nit',
+            'telefono' => 'nullable|string|max:20|unique:clientes,telefono',
+            'direccion' => 'nullable|string|max:255',
+            'correo' => 'nullable|string|email|max:255|unique:clientes,correo',
         ]);
 
         Cliente::create($request->all() + ['user_id' => Auth::id()]);
@@ -45,16 +46,16 @@ class ClienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified client.
      */
     public function show(Cliente $cliente)
     {
-        $cliente->load('user'); // Carga la relación 'user' si no está cargada
+        $cliente->load(['user', 'ventas']); // Cargar ventas del cliente
         return view('clientes.show', compact('cliente')); // Asegúrate de tener esta vista
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified client.
      */
     public function edit(Cliente $cliente)
     {
@@ -62,16 +63,16 @@ class ClienteController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified client in storage.
      */
     public function update(Request $request, Cliente $cliente)
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'nit' => 'required|string|max:20|unique:clientes,nit,' . $cliente->id,
-            'telefono' => 'required|string|max:20',
-            'direccion' => 'required|string|max:255',
-            'correo' => 'required|email|max:255|unique:clientes,correo,' . $cliente->id,
+            'nit' => ['nullable','string','max:20', Rule::unique('clientes')->ignore($cliente->id)],
+            'telefono' => ['nullable','string','max:20', Rule::unique('clientes')->ignore($cliente->id)],
+            'direccion' => 'nullable|string|max:255',
+            'correo' => ['nullable','string','email','max:255', Rule::unique('clientes')->ignore($cliente->id)],
         ]);
 
         $cliente->update($request->all());
@@ -81,13 +82,18 @@ class ClienteController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified client from storage.
      */
     public function destroy(Cliente $cliente)
     {
-        $cliente->delete();
-
-        return redirect()->route('clientes.index')
-                         ->with('success', 'Cliente eliminado exitosamente.');
+        // Considerar si se pueden eliminar clientes con ventas (depende de la FK en ventas y reglas de negocio)
+        try {
+            $cliente->delete();
+            return redirect()->route('clientes.index')
+                             ->with('success', 'Cliente eliminado exitosamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('clientes.index')
+                             ->with('error', 'No se pudo eliminar el cliente. Puede estar asociado a ventas.');
+        }
     }
 }

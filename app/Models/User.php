@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable
 {
@@ -45,8 +47,33 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function productos()
+    public function productos(): HasMany
     {
         return $this->hasMany(Producto::class);
+    }
+
+    public function clientes(): HasMany
+    {
+        return $this->hasMany(Cliente::class);
+    }
+
+    public function ventas(): HasMany
+    {
+        return $this->hasMany(Venta::class);
+    }
+
+    public function stockEntradas(): HasMany
+    {
+        return $this->hasMany(StockEntrada::class);
+    }
+
+    public function stockSalidas(): HasMany
+    {
+        return $this->hasMany(StockSalida::class);
+    }
+
+    public function detalleVentas(): HasMany
+    {
+        return $this->hasMany(DetalleVenta::class);
     }
 }

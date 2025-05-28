@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
@@ -28,12 +30,15 @@ class Cliente extends Model
      */
 
      //Relaciones con los modelos User y Venta
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function venta()
+    /**
+     * Get all of the sales for the client.
+     */
+    public function ventas(): HasMany
     {
         return $this->hasMany(Venta::class);
     }

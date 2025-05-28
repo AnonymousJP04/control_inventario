@@ -3,6 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class Producto extends Model
 {
@@ -16,22 +20,38 @@ class Producto extends Model
     ];
 
     #Relación de uno a muchos inversa con User
-    public function user()
+    /**
+     * Get the user who registered this product.
+     */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    #Relación de uno a muchos con StockEntrada
-    public function stockEntradas()
+    /**
+     * Get all of the stock entries for the product.
+     */
+    public function stockEntradas(): HasMany
     {
         return $this->hasMany(StockEntrada::class);
     }
 
-    #Relación de uno a muchos con StockSalida
-    public function stockSalidas()
+    /**
+     * Get all of the stock exits for the product.
+     */
+    public function stockSalidas(): HasMany
     {
         return $this->hasMany(StockSalida::class);
     }
+
+    /**
+     * Get all of the sale details for the product.
+     */
+    public function detalleVentas(): HasMany
+    {
+        return $this->hasMany(DetalleVenta::class);
+    }
+
 
     #Stock actual del producto
     public function stockActual()
