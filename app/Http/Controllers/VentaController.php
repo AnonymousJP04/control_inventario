@@ -216,7 +216,7 @@ public function update(Request $request, Venta $venta)
         DB::beginTransaction();
         try {
             // Revertir stock por cada detalle de la venta
-            foreach ($venta->detallesVentas as $detalle) {
+            foreach ($venta->detalleVentas as $detalle) {
                 StockEntrada::create([
                     'producto_id' => $detalle->producto_id,
                     'user_id' => Auth::id(), // O un usuario específico de sistema para cancelaciones

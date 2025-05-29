@@ -63,7 +63,7 @@
                                         {{ $venta->user->name }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm">
-                                        S/. {{ number_format($venta->total, 2) }}
+                                        Q. {{ number_format($venta->total, 2) }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm">
                                         {{ $venta->created_at->format('d/m/Y') }}
@@ -78,11 +78,12 @@
                                     <td class="px-5 py-5 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-right space-x-2">
                                         <a href="{{ route('ventas.show', $venta) }}" class="text-blue-500 hover:underline">Ver</a>
                                         <a href="{{ route('ventas.edit', $venta) }}" class="text-indigo-500 hover:underline">Editar</a>
-                                        <form action="{{ route('ventas.destroy', $venta) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Está seguro de eliminar esta venta?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
-                                        </form>
+                                    <form action="{{ route('ventas.destroy', $venta) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Está seguro de eliminar esta venta?');">
+                                         @csrf
+                                         @method('DELETE')
+                                     <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
+                                    </form>
+
                                     </td>
                                 </tr>
                             @empty
