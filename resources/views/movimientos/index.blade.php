@@ -13,7 +13,7 @@
 
                 <!-- Formulario Entrada -->
                 <h2 class="text-xl font-bold mt-6">Registrar Entrada</h2>
-                <form method="POST" action="{{ route('stock.entrada') }}" class="grid grid-cols-3 gap-4 mt-2">
+                <form method="POST" action="{{ route('movimientos.entrada') }}" class="grid grid-cols-3 gap-4 mt-2">
                     @csrf
                     <select name="producto_id" class="border p-2">
                         @foreach($productos as $producto)
@@ -26,7 +26,7 @@
 
                 <!-- Formulario Salida -->
                 <h2 class="text-xl font-bold mt-6">Registrar Salida</h2>
-                <form method="POST" action="{{ route('stock.salida') }}" class="grid grid-cols-3 gap-4 mt-2">
+                <form method="POST" action="{{ route('movimientos.salida') }}" class="grid grid-cols-3 gap-4 mt-2">
                     @csrf
                     <select name="producto_id" class="border p-2">
                         @foreach($productos as $producto)

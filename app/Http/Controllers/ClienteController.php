@@ -14,7 +14,7 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::with('user')->latest()->paginate(10);
+        $clientes = Cliente::orderBy('id', 'asc')->paginate(10); // O el número de ítems que desees por página
         return view('clientes.index', compact('clientes')); // Asegúrate de tener esta vista
     }
 

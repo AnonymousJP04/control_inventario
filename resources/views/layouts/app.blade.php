@@ -28,6 +28,7 @@
             @endisset
 
             <!-- Page Content -->
+            <!-- El slot sirve para insertar contenido dinámico en la plantilla, si no se coloca nada, se mostrará el contenido por defecto -->
             <main>
                 {{ $slot }}
             </main>

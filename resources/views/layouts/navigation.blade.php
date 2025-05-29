@@ -16,6 +16,31 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('movimientos.index')" :active="request()->routeIs('movimientos.index')">
+                          {{ __('Movimientos') }}
+                    </x-nav-link>
+
+                </div>
+                
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.*')">
+                            {{ __('Productos') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                     <x-nav-link :href="route('clientes.index')" :active="request()->routeIs('clientes.*')">
+                         {{ __('Clientes') }}
+                     </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.*')">
+                          {{ __('Ventas') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -44,7 +69,8 @@
 
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                                this.closest('form').submit();"
+                                    onkeydown="if(event.key === 'Enter'){ event.preventDefault(); this.closest('form').submit(); }">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>

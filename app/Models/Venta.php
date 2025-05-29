@@ -38,7 +38,7 @@ class Venta extends Model
     /**
      * Get all of the details for the sale.
      */
-    public function detalles(): HasMany
+    public function detalleVentas(): HasMany
     {
         return $this->hasMany(DetalleVenta::class);
     }
